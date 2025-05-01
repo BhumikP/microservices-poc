@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  consul:
+    image: hashicorp/consul:latest
+    command: "agent -dev -client=0.0.0.0"
+    ports:
+      - "8500:8500"
+    networks:
+      - ms-net
+
+  service-a:
+    build:
+      context: .
+      dockerfile: service-a/Dockerfile
+    depends_on: [consul]
+    environment:
+      - CONSUL_HOST=consul
+    networks:
+      - ms-net
+    ports:
+      - "3001:3001"
+
+  service-b:
+    build:
+      context: .
+      dockerfile: service-b/Dockerfile
+    depends_on: [consul]
+    environment:
+      - CONSUL_HOST=consul
+    networks:
+      - ms-net
+    ports:
+      - "3002:3002"
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    depends_on: [service-a, service-b, consul]
+    environment:
+      - CONSUL_HOST=consul
+    networks:
+      - ms-net
+    ports:
+      - "3000:3000"
+
+networks:
+  ms-net:
+    driver: bridge

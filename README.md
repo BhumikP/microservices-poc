@@ -1,17 +1,4 @@
 
-**Components:**
-
-Consul: Service registry and health checker
-
-Service A: Express service exposing /serviceA and discovering Service B via Consul
-
-Service B: Express service exposing /serviceB
-
-API Gateway: Express-based proxy routing /api/a → Service A and /api/b → Service B
-
-Shared Helper: common/consulRegister.js for Consul registration and TTL-based heartbeats
-
-
 **How to run demo:**
 1. **Clone the repository:**
    ```bash
@@ -45,6 +32,20 @@ Shared Helper: common/consulRegister.js for Consul registration and TTL-based he
    curl http://localhost:3002/health           # Service B health check
    curl http://localhost:3000/api/b/serviceB   # Service B via API Gateway
    ```
+
+
+**Components:**
+
+Consul: Service registry and health checker
+
+Service A: Express service exposing /serviceA and discovering Service B via Consul
+
+Service B: Express service exposing /serviceB
+
+API Gateway: Express-based proxy routing /api/a → Service A and /api/b → Service B
+
+Shared Helper: common/consulRegister.js for Consul registration and TTL-based heartbeats
+
 
 🎯 Role of Consul
 
